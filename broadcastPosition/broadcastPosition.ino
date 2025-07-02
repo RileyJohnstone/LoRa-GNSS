@@ -75,7 +75,7 @@ void setup()
 
   if (myGNSS.begin() == false) //Connect to the u-blox module using Wire port
   {
-    Serial.println(F("u-blox GNSS not detected at default I2C address. Please check wiring. Freezing."));
+    Serial.println(F("no u-blox, Freezing."));
     while (1);
   }
 
@@ -99,7 +99,6 @@ void loop()
     lastTime = millis(); 
     
 
-
     long latitude = myGNSS.getLatitude();
 
     long longitude = myGNSS.getLongitude();
@@ -107,11 +106,17 @@ void loop()
     long altitude = myGNSS.getAltitude();
 
     char charArray[45]; 
-    sendString = latitude +", "+ longitude + ", "+ altitude;
+    String sendString;
+    char numBuffer[15];
+    sendString += ltoa(latitude, numBuffer, 15);
+    sendString +=  + ", ";
+    sendString += ltoa(longitude, numBuffer, 15);
+    sendString += ", ";
+    sendString += ltoa(altitude, numBuffer, 15);
     sendString.toCharArray(charArray, 45);
-    Serial.println(sendString);
+    Serial.println(charArray);
 
-    rf95.send(charArray, 45);
+    rf95.send((uint8_t*)charArray, 45);
     rf95.waitPacketSent();
   }
 
