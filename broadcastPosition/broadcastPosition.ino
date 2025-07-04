@@ -108,11 +108,11 @@ void loop()
     char charArray[45]; 
     String sendString;
     char numBuffer[15];
-    sendString += ltoa(latitude, numBuffer, 15);
+    sendString += ltoa(latitude, numBuffer, 10);
     sendString +=  + ", ";
-    sendString += ltoa(longitude, numBuffer, 15);
+    sendString += ltoa(longitude, numBuffer, 10);
     sendString += ", ";
-    sendString += ltoa(altitude, numBuffer, 15);
+    sendString += ltoa(altitude, numBuffer, 10);
     sendString.toCharArray(charArray, 45);
     Serial.println(charArray);
 
